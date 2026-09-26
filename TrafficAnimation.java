@@ -11,11 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 /**
- * Driver class for CS 121 Project 0: Traffic Animation
+ * Creates an animated beach scene with a car traveling along a road,
+ * a stationary surfer, ocean scenery, and birds moving through the sky.
+ * All scene elements scale relative to the size of the window.
  *
- * Animates a surfer waiting to cross the street and go to the beach.
- *
- * @author BSU CS 121 Instructors
  * @author Morgan Needham
  */
 @SuppressWarnings("serial")
@@ -30,7 +29,7 @@ public class TrafficAnimation extends JPanel
 	 * Note: 100ms is 10 frames per second - you should not need
 	 * a faster refresh rate than this
 	 */
-	private final int DELAY = 100; //milliseconds
+	private final int DELAY = 100; // milliseconds
 
 	/**
 	 * The anchor coordinate for drawing / animating. All of your vehicle's
@@ -84,15 +83,15 @@ public class TrafficAnimation extends JPanel
 		int roadY = height * 3 / 5;
 		int foregroundY = height * 4 /5;
 		
-		// *Ocean* //
+		// OCEAN
 		g.setColor(new Color(0, 119, 190));
 		g.fillRect(0, oceanY, width, beachY - oceanY);
 
-		// *BEACH* //
+		// BEACH
 		g.setColor(new Color(238, 214, 185));
 		g.fillRect(0, beachY, width, roadY - beachY);
 		
-		// *BIRDS* //
+		// BIRDS
 		int birdY = unit * 2;
 		int birdBob = (int)(Math.sin(birdOffset * 0.15) * unit / 3);
 
@@ -104,32 +103,27 @@ public class TrafficAnimation extends JPanel
 
 		g.setColor(new Color(240, 240, 240));
 
-		// Bird 1
+		// BIRD 1
 		int bird1Y = birdY + birdBob;
 
 		g.drawArc(bird1X, bird1Y, birdWidth, birdHeight, 20, 140);
-		g.drawArc(bird1X, bird1Y + 1, birdWidth, birdHeight, 20, 140);
-
 		g.drawArc(bird1X + birdWidth - unit / 4, bird1Y, birdWidth, birdHeight, 20, 140);
-		g.drawArc(bird1X + birdWidth - unit / 4, bird1Y + 1, birdWidth, birdHeight, 20, 140);
 		
-		// Bird 2
+		// BIRD 2
 		int bird2Y = birdY + unit / 2 + birdBob;
 
 		g.drawArc(bird2X, bird2Y, birdWidth, birdHeight, 20, 140);
-		g.drawArc(bird2X, bird2Y + 1, birdWidth, birdHeight, 20, 140);
-
 		g.drawArc(bird2X + birdWidth - unit / 4, bird2Y, birdWidth, birdHeight, 20, 140);
-		g.drawArc(bird2X + birdWidth - unit / 4, bird2Y + 1, birdWidth, birdHeight, 20, 140);
 		
-		birdOffset = birdOffset + 3;
+		int birdStep = Math.max(1, unit / 5);
+		birdOffset = birdOffset + birdStep;
 
 		if (bird2X + birdWidth * 2 < 0)
 		{
    			birdOffset = 0;
 		}
 
-		// *ROAD* //
+		// ROAD
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, roadY, width, foregroundY - roadY);
 
@@ -138,11 +132,11 @@ public class TrafficAnimation extends JPanel
 		g.setColor(Color.YELLOW);
 		g.drawLine(0, roadMiddleY, width, roadMiddleY);
 
-		// *FOREGROUND* //
+		// FOREGROUND
 		g.setColor(new Color(238, 214, 175));
 		g.fillRect(0, foregroundY, width, height - foregroundY);
 
-		// * Vehicle *//
+		// VEHICLE
 		int carX = xOffset;
 		int carY = roadY + unit;
 		int carWidth = unit * 6;
@@ -182,7 +176,7 @@ public class TrafficAnimation extends JPanel
 		g.fillRect(firstWindowX, roofY + unit / 4, windowWidth, windowHeight);
 		g.fillRect(secondWindowX, roofY + unit / 4, windowWidth, windowHeight);
 
-		// * CAR MOVEMENTS * //
+		// CAR MOVEMENTS
 		xOffset = xOffset + stepSize;
 
 		if (xOffset > width)
@@ -191,7 +185,7 @@ public class TrafficAnimation extends JPanel
 		}
 
 		// Foreground shapes in front of vehicle
-		// *SURFER DUDE* //
+		// SURFER DUDE
 		int surferX = width / 5;
 		int surferY = foregroundY + unit / 2;
 
@@ -223,7 +217,7 @@ public class TrafficAnimation extends JPanel
 		g.drawLine(surferX + bodyWidth / 3, legY, surferX, legY + unit);
 		g.drawLine(surferX + bodyWidth * 2 / 3, legY, surferX + bodyWidth, legY + unit);
 
-		// *SURFBOARD* //
+		// SURFBOARD
 		int boardX = surferX + bodyWidth + unit;
 		int boardY = surferY + headSize;
 
@@ -236,11 +230,10 @@ public class TrafficAnimation extends JPanel
 		g.setColor(new Color(0, 102, 204));
 		g.drawOval(boardX, boardY, boardWidth, boardHeight);
 
-		// *TEXT* //
-		g.setColor(Color.WHITE);
+		// TEXT
 		g.setFont(new Font("SansSerif", Font.BOLD, unit));
 		g.setColor(Color.WHITE);
-		g.drawString("Surf's Up!", unit, unit);
+		g.drawString("Surf's Up!", unit, unit);;
 		
 		// Keep all of your code above this line. This makes the drawing smoother.
 		Toolkit.getDefaultToolkit().sync();
